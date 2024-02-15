@@ -78,5 +78,7 @@ print("4/4 财务方面:\n" + result__finances)
 # 生成报告
 generate_report.generate_report_ppt(result_overview, result_love, result_career, result__finances)
 
+# 发送邮件
+
 
 

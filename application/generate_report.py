@@ -1,6 +1,6 @@
 from pptx import Presentation
 from pptx.util import Inches, Pt
-
+from datetime import datetime
 
 def generate_report_ppt(part1, part2, part3, part4):
     print("开始生成PPT")
@@ -41,5 +41,9 @@ def generate_report_ppt(part1, part2, part3, part4):
                         run.font.size = font_size
 
     # 保存PPT文件
-    prs.save("tarot_report.pptx")
+    # 格式化当前时间
+    formatted_time = datetime.now().strftime("%Y%m%d%H%M%S")
+    report_name = "reports/TaroReport_" + "3500466989@qq.com_" + formatted_time + ".pptx"
+    print(report_name)
+    prs.save("./" + report_name)
     print("生成PPT完成!")
