@@ -2,12 +2,13 @@ import requests
 import json
 import time
 
+
 def make_request(url, headers, payload, max_retries=20):
     retries = 0
     while retries < max_retries:
         try:
             # 发送请求并获取响应
-            response = requests.request("POST", url, headers = headers, data=payload)
+            response = requests.request("POST", url, headers=headers, data=payload)
             # 检查响应状态码是否为200
             if response.status_code == 200:
                 # 解析JSON响应内容并返回
@@ -24,7 +25,7 @@ def make_request(url, headers, payload, max_retries=20):
         retries += 1
         print(f"Retrying... {retries}/{max_retries}")
         time.sleep(1)
-    
+
     # 如果达到最大重试次数仍然失败，则输出错误信息并返回空值
     print("Max retries reached. Request failed.")
     return None
