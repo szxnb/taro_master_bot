@@ -6,10 +6,10 @@ url = "https://oa.api2d.net/v1/chat/completions"
 taro_system_prompt = "你是塔罗牌占卜大师，你会根据我所抽取的三张卡牌来对我的问题进行占卜。在回答问题的过程中还会带一些幽默。"
 taro_user_question = "我和我男朋友还有可能吗？"
 taro_user_card = "女教主,高塔,战车"
-taro_user_content_overview = "我的问题是:" + taro_user_question +"我所抽到的三张卡牌是:" + taro_user_card + "请用1000字来回答我的问题"
-taro_user_content_love = "请你帮我预测一下我未来一个月到三个月的爱情状况，我抽到的三张卡牌是:" + taro_user_card + "请用1000字来回答我的问题"
-taro_user_content_career = "请你帮我预测一下我未来一个月到三个月的职业状况，我抽到的三张卡牌是:" + taro_user_card + "请用1000字来回答我的问题"
-taro_user_content_finances  = "请你帮我预测一下我未来一个月到三个月的财务状况，我抽到的三张卡牌是:" + taro_user_card + "请用1000字来回答我的问题"
+taro_user_content_overview = "我的问题是:" + taro_user_question +"我所抽到的三张卡牌是:" + taro_user_card + "请用300字的英文来回答我的问题"
+taro_user_content_love = "请你帮我预测一下我未来一个月到三个月的爱情状况，我抽到的三张卡牌是:" + taro_user_card + "请用300字的英文来回答我的问题"
+taro_user_content_career = "请你帮我预测一下我未来一个月到三个月的职业状况，我抽到的三张卡牌是:" + taro_user_card + "请用300字的英文来回答我的问题"
+taro_user_content_finances  = "请你帮我预测一下我未来一个月到三个月的财务状况，我抽到的三张卡牌是:" + taro_user_card + "请用300字的英文来回答我的问题"
 headers = {
    'Authorization': 'Bearer fk200296-DZuQfeFnQLL40v09VWbT8VF58i6T1E4P',
    'User-Agent': 'Apifox/1.0.0 (https://apifox.com)',
