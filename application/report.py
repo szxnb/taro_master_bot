@@ -11,7 +11,7 @@ def replace_content(shape, target_text, replacement_text):
                     run.text = run.text.replace(target_text, replacement_text)
 
 
-def generate_report_ppt(part1, part2, part3, part4):
+def generate_ppt(part1, part2, part3, part4):
     presentation = Presentation("../reports/template.pptx")
     for slide_number, slide in enumerate(presentation.slides, start=1):
         for shape in slide.shapes:
