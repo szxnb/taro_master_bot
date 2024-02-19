@@ -1,8 +1,8 @@
 import threading
 import time
+from queue import Queue
 
 import requests
-
 
 import report
 import json
@@ -15,7 +15,7 @@ class TaroThread(threading.Thread):
         self.card = card
         self.email = email
         self.url = "https://oa.api2d.net/v1/chat/completions"
-        self.taro_system_prompt = "你是塔罗牌占卜大师，你会根据我所抽取的三张卡牌来对我的问题进行占卜。在回答问题的过程中还会带一些幽默。"
+        self.taro_system_prompt = "我是塔罗牌占卜大师，我会根据你所抽取的三张卡牌来对你的问题进行占卜。在回答问题的过程中还会带一些幽默。"
 
     def make_payload(self, content):
         return json.dumps({
@@ -61,22 +61,56 @@ class TaroThread(threading.Thread):
         print("Max retries reached. Request failed.")
         return None
 
-    def run(self):
-        content_overview = f"我的问题是: {self.question} 我所抽到的三张卡牌是: {self.card} 请用300字的英文来回答我的问题"
-        content_love = f"请你帮我预测一下我未来一个月到三个月的爱情状况，我抽到的三张卡牌是: {self.card} 请用300字的英文来回答我的问题"
-        content_career = f"请你帮我预测一下我未来一个月到三个月的职业状况，我抽到的三张卡牌是: {self.card} 请用300字的英文来回答我的问题"
-        content_finances = f"请你帮我预测一下我未来一个月到三个月的财务状况，我抽到的三张卡牌是: {self.card} 请用300字的英文来回答我的问题"
-
+    def make_request_overview(self, result_queue):
+        content_overview = f"我的问题是: {self.question} 我所抽到的三张卡牌是: {self.card} 请用1000字的中文来回答我的问题"
         result_overview = self.make_request(self.make_payload(content_overview))
-        result_love = self.make_request(self.make_payload(content_love))
-        result_career = self.make_request(self.make_payload(content_career))
-        result_finances = self.make_request(self.make_payload(content_finances))
+        result_queue.put(("overview", result_overview))
 
+    def make_request_love(self, result_queue):
+        content_love = f"请你帮我预测一下我未来一个月到三个月的爱情状况，我抽到的三张卡牌是: {self.card} 请用1000字的中文来回答我的问题"
+        result_love = self.make_request(self.make_payload(content_love))
+        result_queue.put(("love", result_love))
+
+    def make_request_career(self, result_queue):
+        content_career = f"请你帮我预测一下我未来一个月到三个月的职业状况，我抽到的三张卡牌是: {self.card} 请用1000字的中文来回答我的问题"
+        result_career = self.make_request(self.make_payload(content_career))
+        result_queue.put(("career", result_career))
+
+    def make_request_finances(self, result_queue):
+        content_finances = f"请你帮我预测一下我未来一个月到三个月的财务状况，我抽到的三张卡牌是: {self.card} 请用1000字的中文来回答我的问题"
+        result_finances = self.make_request(self.make_payload(content_finances))
+        result_queue.put(("finances", result_finances))
+
+    def run(self):
+        # 创建一个队列用于存储每个线程的结果，线程安全
+        results_queue = Queue()
+        # 创建并启动线程
+        thread_overview = threading.Thread(target=self.make_request_overview, args=(results_queue,))
+        thread_love = threading.Thread(target=self.make_request_love, args=(results_queue,))
+        thread_career = threading.Thread(target=self.make_request_career, args=(results_queue,))
+        thread_finances = threading.Thread(target=self.make_request_finances, args=(results_queue,))
+        thread_overview.start()
+        thread_love.start()
+        thread_career.start()
+        thread_finances.start()
+        # 线程阻塞，等待所有线程完成后继续
+        thread_overview.join()
+        thread_love.join()
+        thread_career.join()
+        thread_finances.join()
+        # 在这里汇总结果
+        results = {}
+        while not results_queue.empty():
+            result = results_queue.get()
+            results[result[0]] = result[1]
+        result_overview = results['overview']
+        result_love = results['love']
+        result_career = results['career']
+        result_finances = results['finances']
         print("开始生成报告")
         print(f"1/4 总述:\n{result_overview}\n----------------------------------------------")
         print(f"2/4 爱情方面:\n{result_love}\n----------------------------------------------")
         print(f"3/4 职业方面:\n{result_career}\n----------------------------------------------")
         print(f"4/4 财务方面:\n{result_finances}")
-
-        # 生成报告
+        # # 生成报告
         report.generate_ppt(result_overview, result_love, result_career, result_finances)
