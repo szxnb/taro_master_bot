@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from pptx import Presentation
 
 
@@ -12,7 +11,7 @@ def replace_content(shape, target_text, replacement_text):
 
 
 def generate_ppt(part1, part2, part3, part4):
-    presentation = Presentation("../reports/template.pptx")
+    presentation = Presentation("../templates/template.pptx")
     for slide_number, slide in enumerate(presentation.slides, start=1):
         for shape in slide.shapes:
             replace_content(shape, "{{#1overview}}", part1)
