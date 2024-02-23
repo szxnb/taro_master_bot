@@ -18,6 +18,6 @@ def make_report(question, card1, card2, card3, email):
     return f"<p>生成完成，报告已发送至{email}邮箱，请查收</p>"
 
 
-# /make_report/我什么时候能结婚/战车/力量/月亮/3500466989@qq.com
+# /make_report/我什么时候能结婚/Sun/Moon/Star/3500466989@qq.com
 if __name__ == "__main__":
     app.run()
