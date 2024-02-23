@@ -4,7 +4,7 @@ from queue import Queue
 import requests
 import report
 import json
-import report_docx
+import report_pdf
 
 
 class TaroThread(threading.Thread):
@@ -61,22 +61,22 @@ class TaroThread(threading.Thread):
         return None
 
     def make_request_overview(self, result_queue):
-        content_overview = f"我的问题是: {self.question} 我所抽到的三张卡牌是: {self.card} 请用500字的英文来回答我的问题"
+        content_overview = f"我的问题是: {self.question} 我所抽到的三张卡牌是: {self.card} 请用500字的英文来回答我的问题，每段回答缩进为2个空格"
         result_overview = self.make_request(self.make_payload(content_overview))
         result_queue.put(("overview", result_overview))
 
     def make_request_love(self, result_queue):
-        content_love = f"请结合我抽到的卡牌来给我提一些爱情方面的建议，我抽到的三张卡牌是: {self.card} 请用500字的英文来回答我的问题"
+        content_love = f"请结合我抽到的卡牌来给我提一些爱情方面的建议，我抽到的三张卡牌是: {self.card} 请用500字的英文来回答我的问题，每段回答缩进为2个空格"
         result_love = self.make_request(self.make_payload(content_love))
         result_queue.put(("love", result_love))
 
     def make_request_career(self, result_queue):
-        content_career = f"请结合我抽到的卡牌来给我提一些职业方面的建议，我抽到的三张卡牌是: {self.card} 请用500字的英文来回答我的问题"
+        content_career = f"请结合我抽到的卡牌来给我提一些职业方面的建议，我抽到的三张卡牌是: {self.card} 请用500字的英文来回答我的问题，每段回答缩进为2个空格"
         result_career = self.make_request(self.make_payload(content_career))
         result_queue.put(("career", result_career))
 
     def make_request_finances(self, result_queue):
-        content_finances = f"请结合我抽到的卡牌来给我提一些财务方面的建议，我抽到的三张卡牌是: {self.card} 请用500字的英文来回答我的问题"
+        content_finances = f"请结合我抽到的卡牌来给我提一些财务方面的建议，我抽到的三张卡牌是: {self.card} 请用500字的英文来回答我的问题，每段回答缩进为2个空格"
         result_finances = self.make_request(self.make_payload(content_finances))
         result_queue.put(("finances", result_finances))
 
@@ -120,4 +120,4 @@ class TaroThread(threading.Thread):
             'result_career' : result_career,
             'result_finances' : result_finances
         }
-        report_docx.generate_docx(self.question, cards[0], cards[1], cards[2], answers)
+        report_pdf.generate(self.question, cards[0], cards[1], cards[2], answers, self.email)

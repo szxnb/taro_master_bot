@@ -35,52 +35,52 @@ html_content = """
 </head>
 <body>
     <div class="container">
-        <h1>请查收您的专属塔罗牌测算报告</h1>
-        <p>尊敬的用户，</p>
+        <h1>Please check your exclusive tarot card calculation report</h1>
+        <p>respected user,</p>
         
-        <p>感谢您购买我们的塔罗牌测算报告。为了您的方便，我们已经在此邮件中附上了您购买的塔罗牌测算报告，请查收附件。</p>
+        <p>Thank you for purchasing our tarot card reading report. For your convenience, we have attached the tarot card calculation report you purchased to this email. Please check the attachment.</p>
         
-        <p>您也可以<a href="https://taromaster.streamlit.app/" target="_blank">点击这里</a>访问我们的网站了解更多有关塔罗牌的信息。</p>
+        <p>You can also visit our website <a href="https://taromaster.streamlit.app/" target="_blank">click here</a> to learn more about tarot.</p>
         
-        <p>如果您有任何关于报告内容的问题或需要进一步的解释，请随时与我们联系。我们将竭诚为您提供帮助。</p>
+        <p>If you have any questions about the report content or require further clarification, please feel free to contact us. We will be happy to assist you.</p>
         
-        <p>再次感谢您选择我们的服务。</p>
+        <p>Thank you again for choosing our service.</p>
         
-        <p>祝您一切顺利！</p>
+        <p>I wish you all the best!</p>
         
-        <p>诚挚地，<br>
+        <p>Sincerely,<br>
         Pakqoo Studio<br>
     </div>
 </body>
 </html>
 """
+def send_email(file_locate, recipient_email):
+    # 你的邮箱账号和密码
+    email = 'pakqoostudio1@hotmail.com'
+    password = 'suegaapafsiugteu'
 
-# 你的邮箱账号和密码
-email = 'pakqoostudio1@hotmail.com'
-password = 'suegaapafsiugteu'
+    # 收件人邮箱
+    recipient = recipient_email
 
-# 收件人邮箱
-recipient = '3500466989@qq.com'
-# 1191976408@qq.com
+    # 创建包含邮件内容的消息对象
+    msg = MIMEMultipart()
+    # 将 HTML 内容附加到邮件中
+    msg.attach(MIMEText(html_content, 'html', 'utf-8'))
+    msg['From'] = email
+    msg['To'] = recipient
+    msg['Subject'] = Header('Tarot Card Calculation Report', 'utf-8')
 
-# 创建包含邮件内容的消息对象
-msg = MIMEMultipart()
-# 将 HTML 内容附加到邮件中
-msg.attach(MIMEText(html_content, 'html', 'utf-8'))
-msg['From'] = email
-msg['To'] = recipient
-msg['Subject'] = Header('塔罗牌测算报告', 'utf-8')
+    # 添加pdf附件
+    with open('../reports/' + file_locate, 'rb') as file:
+        attach_pdf = MIMEApplication(file.read(), _subtype="pdf")
 
-# 添加PDF附件
-with open('../reports/example.pdf', 'rb') as file:
-    attach_pdf = MIMEApplication(file.read(), _subtype="pdf")
+    attach_pdf.add_header('Content-Disposition', 'attachment', filename= file_locate)
+    msg.attach(attach_pdf)
 
-attach_pdf.add_header('Content-Disposition', 'attachment', filename='example.pdf')
-msg.attach(attach_pdf)
-
-# 连接到SMTP服务器并发送邮件
-server = smtplib.SMTP('smtp-mail.outlook.com', 587)  # 你的SMTP服务器地址和端口号
-server.starttls()  # 开启安全传输模式
-server.login(email, password)  # 登录邮箱
-server.sendmail(email, recipient, msg.as_string())  # 发送邮件
-server.quit()  # 退出SMTP会话
+    # 连接到SMTP服务器并发送邮件
+    server = smtplib.SMTP('smtp-mail.outlook.com', 587)  # 你的SMTP服务器地址和端口号
+    server.starttls()  # 开启安全传输模式
+    server.login(email, password)  # 登录邮箱
+    server.sendmail(email, recipient, msg.as_string())  # 发送邮件
+    server.quit()  # 退出SMTP会话
+    print(file_locate + "已发送")
