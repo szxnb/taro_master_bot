@@ -5,7 +5,10 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Inches
 import card_detail
 import send_email
-from docx2pdf import convert
+# from docx2pdf import convert
+import docx_to_pdf
+import os
+
 
 # str 问题, dic 三个卡牌的字典, dic 四个回答的字典 
 def generate(qusetion, card1, card2, card3, answers, recipient_email):
@@ -37,7 +40,6 @@ def generate(qusetion, card1, card2, card3, answers, recipient_email):
     def limit_run_length(run, max_length):
         if len(run.text) > max_length:
             run.text = run.text[:max_length - 3] + '...'
-
     # 遍历文档中的所有表格
     for table in doc.tables:
         # 遍历表格中的所有行
@@ -286,7 +288,9 @@ def generate(qusetion, card1, card2, card3, answers, recipient_email):
     doc.save("../" + report_name + '.docx')
     input_docx = "../" + report_name + ".docx"
     output_pdf = "../" + report_name + ".pdf"
-    convert(input_docx, output_pdf)
+
+    # convert(input_docx, output_pdf)
+    docx_to_pdf.convert_to_pdf(os.path.abspath(input_docx), os.path.abspath(output_pdf))
 
     file_locate = output_pdf
     send_email.send_email(file_locate, recipient_email)

@@ -5,6 +5,7 @@ import requests
 import report
 import json
 import report_pdf
+import pythoncom
 
 
 class TaroThread(threading.Thread):
