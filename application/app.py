@@ -1,7 +1,9 @@
 from flask import Flask
 from taro import TaroThread
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)  # 允许所有域进行跨域请求
 
 
 @app.route("/")
@@ -20,4 +22,4 @@ def make_report(question, card1, card2, card3, email):
 
 # /make_report/我什么时候能结婚/Sun/Moon/Star/3500466989@qq.com
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0', port=5000)

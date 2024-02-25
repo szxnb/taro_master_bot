@@ -40,7 +40,7 @@ html_content = """
         
         <p>Thank you for purchasing our tarot card reading report. For your convenience, we have attached the tarot card calculation report you purchased to this email. Please check the attachment.</p>
         
-        <p>You can also visit our website <a href="https://taromaster.streamlit.app/" target="_blank">click here</a> to learn more about tarot.</p>
+        <p>You can also visit our website <a href="http://tarot.pakqoostudio.com/" target="_blank">click here</a> to learn more about tarot.</p>
         
         <p>If you have any questions about the report content or require further clarification, please feel free to contact us. We will be happy to assist you.</p>
         
@@ -71,7 +71,7 @@ def send_email(file_locate, recipient_email):
     msg['Subject'] = Header('Tarot Card Calculation Report', 'utf-8')
 
     # 添加pdf附件
-    with open('../reports/' + file_locate, 'rb') as file:
+    with open(file_locate, 'rb') as file:
         attach_pdf = MIMEApplication(file.read(), _subtype="pdf")
 
     attach_pdf.add_header('Content-Disposition', 'attachment', filename= file_locate)
