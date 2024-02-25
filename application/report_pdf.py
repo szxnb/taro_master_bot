@@ -17,9 +17,9 @@ def generate(qusetion, card1, card2, card3, answers, recipient_email):
     master_words =  '''Before we begin the interpretation, I would like to explain some important points to you. Tarot cards are not tools for predicting the future, but rather tools for guiding us to delve deeper into various situations in life. Therefore, when receiving the reading, please maintain an open mindset and trust your intuition. Our goal is to provide you with inspiration and guidance through the guidance of the tarot cards, helping you better deal with challenges and decisions in life. Alright, you can start reading now!
     '''
     # Name
-    card_first_name = 'CardⅠ ' + card_detail.card_detail[card1][0]
-    card_second_name = 'CardⅡ ' + card_detail.card_detail[card2][0]
-    card_third_name = 'CardⅢ ' + card_detail.card_detail[card3][0]
+    card_first_name = 'Card Ⅰ ' + card_detail.card_detail[card1][0]
+    card_second_name = 'Card Ⅱ ' + card_detail.card_detail[card2][0]
+    card_third_name = 'Card Ⅲ ' + card_detail.card_detail[card3][0]
     # Image
     card_first_image = '../assets/' + card_detail.card_detail[card1][1]
     card_second_image = '../assets/' + card_detail.card_detail[card2][1]
